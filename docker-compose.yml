@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+
+    db:
+        image: mysql
+        container_name: php_container_symfony
+        restart: 'no'
+        volumes:
+            - db-data:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: myportfolio_database
+            MYSQL_USER: admin
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - dev
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmin_container_symfony
+        restart: 'no'
+        depends_on:
+            - db
+        ports:
+            - '8082:80'
+        environment:
+            PMA_HOST: db
+        networks:
+            - dev
+
+    maildev:
+        image: maildev/maildev
+        container_name: maildev_container_symfony
+        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+        ports:
+          - '8081:80'
+        restart: 'no'
+        networks:
+            - dev
+         
+    www:
+        build: 
+          context: ./php
+          args:
+            USER_ID: ${USER_ID}
+            GROUP_ID: ${GROUP_ID}
+        container_name: php_container_symfony
+        user: ${USER_ID}:${GROUP_ID}
+        sysctls:
+          - net.ipv4.ip_unprivileged_port_start=0
+        ports:
+          - '8000:80'
+        volumes:
+            - ./:/var/www
+        restart: 'no'
+        depends_on:
+          - db
+        networks:
+            - dev
+
+networks:
+  dev:
+
+volumes:
+  db-data:

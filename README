@@ -1,0 +1,8 @@
+#Container
+
+Docker-compose  version 3.8 workdir /var/www
+
+##php_container_symfony: Build in php/Dokerfile from php:8.1.0-fpm 
+##db_container_symfony: Image mysql in docker-compose.yml
+##phpmyadmin_container_symfony: Image phpmyadmin in docker-compose.yml
+##maildev_container_symfony: Image maildev/maildev in docker-compose.yml
