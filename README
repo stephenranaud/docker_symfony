@@ -6,3 +6,8 @@ Docker-compose  version 3.8 workdir /var/www
 ##db_container_symfony: Image mysql in docker-compose.yml
 ##phpmyadmin_container_symfony: Image phpmyadmin in docker-compose.yml
 ##maildev_container_symfony: Image maildev/maildev in docker-compose.yml
+
+
+#Usage
+
+Run USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose build && docker up -d

@@ -3,7 +3,7 @@ services:
 
     db:
         image: mysql
-        container_name: php_container_symfony
+        container_name: db_container_symfony
         restart: 'no'
         volumes:
             - db-data:/var/lib/mysql
